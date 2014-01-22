@@ -1159,6 +1159,9 @@ function fighting.set_target(entity,target)
 
 			if entity.dynamic_data.combat.target == nil then
 				fighting.switch_to_combat_state(entity,mobf_get_current_time(),target)
+				if entity.data.sound ~= nil then
+					sound.play(entity.object:getpos(),entity.data.sound.attack);
+				end
 			end
 
 		end
