@@ -91,6 +91,16 @@ wolf_prototype = {
 				},
 		sound = {
 					random = nil,
+					melee = {
+								name="animal_wolf_melee",
+								gain = 0.8,
+								max_hear_distance = 10
+								},
+					attack = {
+								name="animal_wolf_attack",
+								gain = 0.8,
+								max_hear_distance = 20
+								},
 					},
 		animation = {
 				stand = {
