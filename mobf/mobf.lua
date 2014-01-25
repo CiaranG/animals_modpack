@@ -958,8 +958,10 @@ end
 --! @param mob
 -------------------------------------------------------------------------------
 function mobf.blacklisthandling(mob)
-	local blacklisted = minetest.registered_entities[mob.modname.. ":"..mob.name]
 
+	dbg_mobf.mobf_core_lvl2("MOBF: blacklisthandling for " .. mob.modname .. ":" .. mob.name)
+
+	local blacklisted = minetest.registered_entities[mob.modname.. ":"..mob.name]
 
 	local on_activate_fct = nil
 
@@ -971,17 +973,35 @@ function mobf.blacklisthandling(mob)
 
 		--cleanup spawners too
 		if minetest.registered_entities[mob.modname.. ":"..mob.name] == nil and
-			environment_list[mob.generic.envid] ~= nil and
-			mobf_spawn_algorithms[mob.spawning.algorithm] ~= nil and
-			type(mobf_spawn_algorithms[mob.spawning.algorithm].register_cleanup)
-															== "function" then
+			environment_list[mob.generic.envid] ~= nil then
 
-			mobf_spawn_algorithms[mob.spawning.algorithm].register_cleanup(mob.modname.. ":" .. mob.name)
+			if type(mob.spawning.primary_algorithms) == "table" then
+				for i=1 , #mob.spawning.primary_algorithms , 1 do
 
-			if mob.spawning.algorithm_secondary ~= nil and
-				type(mobf_spawn_algorithms[mob.spawning.algorithm_secondary].initialize_cleanup) == "function" then
-					mobf_spawn_algorithms[mob.spawning.algorithm_secondary].initialize_cleanup(mob.modname.. ":" .. mob.name)
+					local sp = mob.spawning.primary_algorithms[i]
+					cleanup = mobf_spawn_algorithms[sp.algorithm].initialize_cleanup
+					dbg_mobf.mobf_core_lvl2("MOBF: blacklist cleanup for primary spawner " .. sp.algorithm)
+					if type(cleanup) == "function" then
+						cleanup(mob.modname.. ":" .. mob.name .. "_spawner_" .. sp.algorithm)
+					else
+						dbg_mobf.mobf_core_lvl2("MOBF: blacklist cleanup impossible - no cleanup function defined")
+					end
+				end
 			end
+			if type(mob.spawning.secondary_algorithms) == "table" then
+				for i=1 , #mob.spawning.secondary_algorithms , 1 do
+
+					local sp = mob.spawning.secondary_algorithms[i]
+					cleanup = mobf_spawn_algorithms[sp.algorithm].initialize_cleanup
+					dbg_mobf.mobf_core_lvl2("MOBF: blacklist cleanup for secondary spawner " .. sp.algorithm)
+					if type(cleanup) == "function" then
+						cleanup(mob.modname.. ":" .. mob.name .. "_spawner_" .. sp.algorithm)
+					else
+						dbg_mobf.mobf_core_lvl2("MOBF: blacklist cleanup impossible - no cleanup function defined")
+					end
+				end
+			end
+
 		end
 	else
 		on_activate_fct = function(self,staticdata)
