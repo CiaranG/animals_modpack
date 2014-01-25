@@ -212,7 +212,7 @@ function spawning.population_density_check(entity,now)
 		spawning.remove(entity, "population density check")
 		return false
 	else
-		dbg_mobf.spawning_lvl2("MOBF: " ..  entity.data.name ..
+		dbg_mobf.spawning_lvl3("MOBF: " ..  entity.data.name ..
 			" density ok only "..mob_count.." mobs around")
 		return true
 	end
@@ -905,16 +905,17 @@ function spawning.register_spawner_entity(spawning_data,spawnfunc,surfacefunc,su
 end
 
 ------------------------------------------------------------------------------
--- name: register_cleanup_spawner(mobname)
+-- name: register_cleanup_spawner(spawnername)
 -- @function [parent=#spawning] register_cleanup_spawner
 --
 --! @brief register an entity to cleanup spawners
 --! @memberof spawning
 --
---! @param mobname mobname to create cleanup
+--! @param spawnername spawnername to create cleanup
 -------------------------------------------------------------------------------
-function spawning.register_cleanup_spawner(mobname)
-	minetest.register_entity(mobname .. "_spawner",
+function spawning.register_cleanup_spawner(spawnername)
+	dbg_mobf.mobf_core_lvl2("MOBF: registering spawner cleanup " .. spawnername)
+	minetest.register_entity(spawnername,
 		{
 			on_activate = function(self,staticdata)
 				self.object:remove()
