@@ -35,7 +35,12 @@ mobf_env_plants = {
 	"default:grass_2",
 	"default:grass_3",
 	"default:grass_4",
-	"default:grass_5"
+	"default:grass_5",
+	-- From the vines mod...
+	"vines:side",
+	-- From the plantlife mod...
+	"poisonivy:seedling",
+	"poisonivy:sproutling"
 }
 
 mobf_env_flowers = {
