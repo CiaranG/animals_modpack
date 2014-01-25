@@ -785,6 +785,9 @@ function spawning.register_spawner_entity(spawning_data,spawnfunc,surfacefunc,su
 					local successfull = false
 					local spawnerpos = self.object:getpos()
 
+					dbg_mobf.spawning_lvl2("MOBF: spawner activating for : \"" .. self.spawner_mob_name .. 
+						"\" at " .. printpos(spawnerpos))
+
 					--find random pos around
 					for try=1,max_tries,1 do
 						local newpos = {}
@@ -801,7 +804,7 @@ function spawning.register_spawner_entity(spawning_data,spawnfunc,surfacefunc,su
 								0.5)
 
 						dbg_mobf.spawning_lvl2(
-							"MOBF: trying to get new random value, max_offset:" ..
+							"MOBF: try #" .. try .. " for new position, max_offset:" ..
 							max_offset .. " checking pos: " .. printpos(newpos) .. " spawnerpos.y=" .. spawnerpos.y)
 
 						newpos.y = mobf_get_surface(newpos.x,newpos.z,spawnerpos.y-10, spawnerpos.y+10)
