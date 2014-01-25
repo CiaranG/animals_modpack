@@ -57,7 +57,7 @@ sheep_prototype = {
 					},
 		harvest = {
 					tool="animalmaterials:scissors",
-					max_tool_usage=10,
+					max_tool_usage=40,
 					tool_consumed=false,
 					result="wool:white 1",
 					transforms_to="animal_sheep:sheep_naked",
