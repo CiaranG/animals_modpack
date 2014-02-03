@@ -697,17 +697,20 @@ function mobf.register_entity(name, graphics, mob)
 					return
 				end
 
-				for i = 1, #self.on_punch_hooks, 1 do
-					if self.on_punch_hooks[i](self,hitter,now,
-							time_from_last_punch, tool_capabilities, dir) then
-						mobf_warn_long_fct(starttime,"onpunch_total","onpunch_total")
-						return
-					end
-					mobf_warn_long_fct(starttime,"callback nr " .. i,
-						"callback_op_".. self.data.name .. "_" .. i)
-				end
-				mobf_warn_long_fct(starttime,"onpunch_total","onpunch_total")
-				end,
+                                -- Sometimes nil, crashing it, so check...
+                                if self.on_punch_hooks then
+                                    for i = 1, #self.on_punch_hooks, 1 do
+                                            if self.on_punch_hooks[i](self,hitter,now,
+                                                            time_from_last_punch, tool_capabilities, dir) then
+                                                    mobf_warn_long_fct(starttime,"onpunch_total","onpunch_total")
+                                                    return
+                                            end
+                                            mobf_warn_long_fct(starttime,"callback nr " .. i,
+                                                    "callback_op_".. self.data.name .. "_" .. i)
+                                    end
+                                    mobf_warn_long_fct(starttime,"onpunch_total","onpunch_total")
+                                end
+                            end,
 
 		--rightclick handler
 			on_rightclick = mobf.rightclick_handler,
